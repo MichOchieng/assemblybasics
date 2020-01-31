@@ -3,21 +3,25 @@ SAM4S Xpro Bare Metal.elf:     file format elf32-littlearm
 
 Sections:
 Idx Name          Size      VMA       LMA       File off  Algn
-  0 .text         00000016  00400000  00400000  00008000  2**1
+  0 .text         00000010  00400000  00400000  00010000  2**1
                   CONTENTS, ALLOC, LOAD, READONLY, CODE
-  1 .data         00000000  20000000  20000000  00008016  2**0
+  1 .init         00000004  00400010  00400010  00010010  2**2
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+  2 .fini         00000004  00400014  00400014  00010014  2**2
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+  3 .data         00000000  20000000  20000000  00010018  2**0
                   CONTENTS, ALLOC, LOAD, DATA
-  2 .bss          00000000  20000000  20000000  00000000  2**0
+  4 .bss          00000000  20000000  20000000  00000000  2**0
                   ALLOC
-  3 .ARM.attributes 0000002a  00000000  00000000  00008016  2**0
+  5 .ARM.attributes 0000002a  00000000  00000000  00010018  2**0
                   CONTENTS, READONLY
-  4 .debug_line   0000003f  00000000  00000000  00008040  2**0
+  6 .debug_line   0000003f  00000000  00000000  00010042  2**0
                   CONTENTS, READONLY, DEBUGGING
-  5 .debug_info   00000094  00000000  00000000  0000807f  2**0
+  7 .debug_info   0000008e  00000000  00000000  00010081  2**0
                   CONTENTS, READONLY, DEBUGGING
-  6 .debug_abbrev 00000014  00000000  00000000  00008113  2**0
+  8 .debug_abbrev 00000014  00000000  00000000  0001010f  2**0
                   CONTENTS, READONLY, DEBUGGING
-  7 .debug_aranges 00000020  00000000  00000000  00008128  2**3
+  9 .debug_aranges 00000020  00000000  00000000  00010128  2**3
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -27,15 +31,28 @@ Disassembly of section .text:
   400004:	00400009 	.word	0x00400009
 
 00400008 <start>:
-
 .section .text
 .thumb
 .type start, %function
-start:
-	mov r0, #0x01			/* This is a comment */
-  400008:	f04f 0001 	mov.w	r0, #1
-	mov r1, #0x02
-  40000c:	f04f 0102 	mov.w	r1, #2
-	mov r2, #0x03
-  400010:	f04f 0203 	mov.w	r2, #3
-  400014:	e7fe      	b.n	400014 <start+0xc>
+start:	
+	/* Question 1 */
+	mov r3,r0
+  400008:	4603      	mov	r3, r0
+	mov r0,r1
+  40000a:	4608      	mov	r0, r1
+	mov r1,r3
+  40000c:	4619      	mov	r1, r3
+	b .
+  40000e:	e7fe      	b.n	40000e <start+0x6>
+
+Disassembly of section .init:
+
+00400010 <_init>:
+  400010:	b5f8      	push	{r3, r4, r5, r6, r7, lr}
+  400012:	bf00      	nop
+
+Disassembly of section .fini:
+
+00400014 <_fini>:
+  400014:	b5f8      	push	{r3, r4, r5, r6, r7, lr}
+  400016:	bf00      	nop
