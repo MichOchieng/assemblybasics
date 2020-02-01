@@ -252,8 +252,8 @@ OUTPUT(SAM4S Xpro Bare Metal.elf elf32-littlearm)
 .debug_line     0x00000000       0x3f
  .debug_line    0x00000000       0x3f start.o
 
-.debug_info     0x00000000       0x8e
- .debug_info    0x00000000       0x8e start.o
+.debug_info     0x00000000       0x97
+ .debug_info    0x00000000       0x97 start.o
 
 .debug_abbrev   0x00000000       0x14
  .debug_abbrev  0x00000000       0x14 start.o
